@@ -1,5 +1,5 @@
 const { Client, Collection } = require('discord.js')
-const { botToken, prefix } = require('./config')
+const { botToken } = require('./config')
 const { readdirSync } = require('fs')
 const { join } = require('path')
 
@@ -14,34 +14,16 @@ commandFiles.forEach((file) => {
 	client.commands.set(command.name, command)
 })
 
-client.on('message', (message) => {
-	if (!message.content.startsWith(prefix) || message.author.bot) return
+const eventFiles = readdirSync(join(__dirname, 'events')).filter((file) => file.endsWith('.js'))
 
-	const args = message.content.slice(prefix.length).trim().split(' ')
-	const commandName = args.shift().toLowerCase()
+eventFiles.forEach((file) => {
+	const event = require(`./events/${file}`)
 
-	if (!client.commands.has(commandName)) return
-
-	const command = client.commands.get(commandName)
-
-	if (command.guildOnly && message.channel.type === 'dm') {
-		return message.reply('Bu komutu burada çalıştıramam!')
+	if (event.once) {
+		return client.once(event.name, (...args) => event.run(...args, client))
 	}
 
-	if (command.args && !args.length) {
-		let reply = 'herhangi bir argüman girmediniz!'
-
-		if (command.usage) {
-			reply += `\nKomut şu şekilde kullanılır: \`${prefix}${command.name} ${command.usage}\``
-		}
-		return message.reply(reply)
-	}
-
-	try {
-		command.run(message, args)
-	} catch (error) {
-		console.error(error)
-	}
+	client.on(event.name, (...args) => event.run(...args, client))
 })
 
 client.login(botToken)
