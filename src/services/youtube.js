@@ -50,7 +50,7 @@ module.exports = class YouTubeService {
 					const end = lines[i + 1] ? { minute: lines[i + 1][2], second: lines[i + 1][3] } : {}
 
 					questions.push({
-						id: item.id,
+						videoId: item.id,
 						time: { start, end },
 						title
 					})

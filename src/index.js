@@ -2,6 +2,9 @@ const { Client, Collection } = require('discord.js')
 const { botToken } = require('./config')
 const { readdirSync } = require('fs')
 const { join } = require('path')
+const initServer = require('./server')
+
+initServer()
 
 const client = new Client()
 client.commands = new Collection()
@@ -22,7 +25,6 @@ eventFiles.forEach((file) => {
 	if (event.once) {
 		return client.once(event.name, (...args) => event.run(...args, client))
 	}
-
 	client.on(event.name, (...args) => event.run(...args, client))
 })
 
