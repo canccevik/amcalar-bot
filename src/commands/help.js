@@ -17,6 +17,7 @@ module.exports = {
 			})
 
 			embed
+				.setColor('#ffffff')
 				.setDescription(`Spesifik bir komut hakkında yardım için: \`${prefix}${this.name} <komut adı>\``)
 				.addFields({ name: 'Tüm komutlarım:', value: messages })
 
