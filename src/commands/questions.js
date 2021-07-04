@@ -22,12 +22,13 @@ module.exports = {
 		})
 
 		if (!questions.length) {
-			reply = { name: 'Sonuç:', value: 'Sonuç bulunamadı.' }
+			reply = { name: 'Sonuçlar:', value: 'Sonuç bulunamadı.' }
 		}
 
 		const embed = new MessageEmbed().setColor('#ffffff').addFields(reply)
 
 		if (questions.length) {
+			embed.setTitle(`İzlemek için: \`${prefix}izle <soru kimliği>\``)
 			embed.setFooter(`${totalQuestionCount} soru içerisinden ${pageNumber * 10 + 1}-${pageNumber * 10 + 10} aralığı gösteriliyor.`)
 		}
 
