@@ -13,7 +13,7 @@ module.exports = {
 		const command = client.commands.get(commandName)
 
 		if (command.guildOnly && message.channel.type === 'dm') {
-			return message.reply('Bu komutu burada çalıştıramam!')
+			return message.reply('bu komutu burada çalıştıramam!')
 		}
 
 		if (command.args && !args.length) {
