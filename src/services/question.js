@@ -22,4 +22,14 @@ module.exports = class QuestionService {
 	getQuestionCount() {
 		return questions.length || 0
 	}
+
+	searchByPage(pageNumber, count, searchText) {
+		const results = questions.filter((q) => q.title.toLowerCase().includes(searchText.toLowerCase()))
+		const filteredResults = results.slice(pageNumber * count, pageNumber * count + count)
+
+		return {
+			totalResultCount: results.length || 0,
+			questions: filteredResults
+		}
+	}
 }
