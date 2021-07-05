@@ -36,7 +36,7 @@ module.exports = {
 		if (command.description) messages.push(`**Açıklaması:** ${command.description}`)
 		if (command.usage) messages.push(`**Kullanımı:** \`${prefix}${command.name} ${command.usage}\``)
 
-		embed.addFields({ name: 'Komut bilgileri:', value: messages })
+		embed.addFields({ name: 'Komut bilgileri', value: messages })
 
 		message.channel.send(embed)
 	}

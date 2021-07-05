@@ -2,8 +2,6 @@ const QuestionService = require('../services/question')
 const DisTube = require('distube')
 
 const questionService = new QuestionService()
-let distubeInstance = null
-let sharedMessage = null
 
 module.exports = {
 	name: 'dinle',
@@ -12,7 +10,6 @@ module.exports = {
 	args: true,
 	usage: '<soru kimliği>',
 	async run(message, args) {
-		sharedMessage = message
 		const questionId = args[0]
 		const question = questionService.getQuestionById(questionId)
 
@@ -22,26 +19,25 @@ module.exports = {
 		if (!message.member.voice.channel) {
 			return message.reply('bu komutu çalıştırabilmek için bir ses kanalında olmalısın!')
 		}
-		if (!distubeInstance) {
-			distubeInstance = new DisTube(message.client, { leaveOnFinish: true })
-		}
 
-		distubeInstance.on('error', () => {})
-		distubeInstance.on('empty', async (message) => {
+		const distube = new DisTube(message.client, { leaveOnFinish: true })
+
+		distube.on('error', () => {})
+		distube.on('empty', async (message) => {
 			await message.member.voice.channel.leave()
 		})
 
 		const startTimeInMs = question.time.start.minute * 60000 + question.time.start.second * 1000
 
-		await distubeInstance.play(message, `https://www.youtube.com/watch?v=${question.videoId}`)
+		await distube.play(message, `https://www.youtube.com/watch?v=${question.videoId}`)
 
-		distubeInstance.seek(message, startTimeInMs)
+		distube.seek(message, startTimeInMs)
 
 		if (question.time.end.minute) {
 			const endTimeInMs = question.time.end.minute * 60000 + question.time.end.second * 1000
 
 			setTimeout(async () => {
-				distubeInstance.stop(message)
+				distube.stop(message)
 				await message.member.voice.channel.leave()
 			}, endTimeInMs - startTimeInMs)
 		} else {
@@ -49,5 +45,3 @@ module.exports = {
 		}
 	}
 }
-
-exports.listen = { distubeInstance, sharedMessage }

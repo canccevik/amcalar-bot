@@ -1,4 +1,4 @@
-const { listen } = require('./listen')
+const DisTube = require('distube')
 
 module.exports = {
 	name: 'durdur',
@@ -11,9 +11,9 @@ module.exports = {
 			return message.reply('botu durdurabilmek için botla aynı ses kanalında olmalısın!')
 		}
 
-		const { distubeInstance, sharedMessage } = listen
+		const distube = new DisTube(message.client, { leaveOnFinish: true })
 
-		distubeInstance.stop(sharedMessage)
+		distube.stop(message)
 		await message.member.voice.channel.leave()
 	}
 }
