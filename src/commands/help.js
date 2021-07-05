@@ -13,7 +13,7 @@ module.exports = {
 
 		if (!args.length) {
 			commands.forEach((command) => {
-				messages.push(`\`${prefix}${command.name} ${command.usage}\``)
+				messages.push(`\`${prefix}${command.name} ${command.usage ? command.usage : ''}\``)
 			})
 
 			embed

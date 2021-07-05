@@ -28,7 +28,7 @@ module.exports = {
 		const embed = new MessageEmbed().setColor('#ffffff').addFields(reply)
 
 		if (questions.length) {
-			embed.setTitle(`İzlemek için: \`${prefix}izle <soru kimliği>\``)
+			embed.setTitle(`İzlemek için: \`${prefix}izle <soru kimliği>\`\nDinlemek için: \`${prefix}dinle <soru kimliği>\``)
 			embed.setFooter(`${totalQuestionCount} soru içerisinden ${pageNumber * 10 + 1}-${pageNumber * 10 + 10} aralığı gösteriliyor.`)
 		}
 
