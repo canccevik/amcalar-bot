@@ -13,7 +13,11 @@ module.exports = {
 
 		const distube = new DisTube(message.client, { leaveOnFinish: true })
 
-		distube.stop(message)
-		await message.member.voice.channel.leave()
+		try {
+			distube.stop(message)
+			await message.member.voice.channel.leave()
+		} catch (error) {
+			console.log(error)
+		}
 	}
 }

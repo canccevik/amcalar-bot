@@ -22,7 +22,7 @@ module.exports = {
 
 		const distube = new DisTube(message.client, { leaveOnFinish: true })
 
-		distube.on('error', () => {})
+		distube.on('error', (error) => console.error(error))
 		distube.on('empty', async (message) => {
 			await message.member.voice.channel.leave()
 		})
